@@ -2,6 +2,7 @@ def fix_name_mismatches(rankings):
     # fix any name mismatches - change fp/ffa version to match DK
     rankings.loc[rankings['Id'] == 'Patrick Mahomes II', 'Id'] = 'Patrick Mahomes'
     rankings.loc[rankings['Id'] == 'Gabriel Davis', 'Id'] = 'Gabe Davis'
+    rankings.loc[rankings['Id'] == 'Travis Etienne', 'Id'] = 'Travis Etienne Jr.'
     return rankings
 
 def set_position_constraints(game_mode):
