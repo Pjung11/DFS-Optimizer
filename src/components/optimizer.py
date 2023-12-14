@@ -1,15 +1,17 @@
 import pandas as pd
 from pulp import *
+import random
 
 from src.utils import set_position_constraints
 
 class OptimizeLineup:
-    def __init__(self, game_mode, availables, n_lineups, force_ins, add_results):
+    def __init__(self, game_mode, availables, n_lineups, force_ins, add_results, variability_percentage):
         self.game_mode = game_mode
         self.availables = availables
         self.n_lineups = n_lineups
         self.force_ins = force_ins
         self.add_results = add_results
+        self.variability_percentage = variability_percentage
 
     def run_optimizer(self): 
         salaries = {}
@@ -52,7 +54,11 @@ class OptimizeLineup:
             # iterate over players to populate tracking lists for solving
             for k, v in _vars.items():
                 costs += lpSum([salaries[k][i] * _vars[k][i] for i in v])
-                rewards += lpSum([points[k][i] * _vars[k][i] for i in v])
+
+                # Add random variability as a percentage to points
+                variability = points[k][list(v)[0]] * (self.variability_percentage / 100.0)
+                rewards += lpSum([(points[k][i] + random.uniform(-variability, variability)) * _vars[k][i] for i in v])
+
                 prob += lpSum([_vars[k][i] for i in v]) == pos_num_available[k]
                 if self.add_results:
                     results += lpSum([actuals[k][i] * _vars[k][i] for i in v])

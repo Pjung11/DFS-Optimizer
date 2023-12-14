@@ -3,6 +3,8 @@ def fix_name_mismatches(rankings):
     rankings.loc[rankings['Id'] == 'Patrick Mahomes II', 'Id'] = 'Patrick Mahomes'
     rankings.loc[rankings['Id'] == 'Gabriel Davis', 'Id'] = 'Gabe Davis'
     rankings.loc[rankings['Id'] == 'Travis Etienne', 'Id'] = 'Travis Etienne Jr.'
+    rankings.loc[rankings['Id'] == 'Devon Achane', 'Id'] = "De'Von Achane"
+    rankings.loc[rankings['Id'] == 'Josh Palmer', 'Id'] = "Joshua Palmer"
     return rankings
 
 def set_position_constraints(game_mode):
