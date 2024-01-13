@@ -3,16 +3,20 @@ from pulp import *
 import random
 
 from src.utils import set_position_constraints
+from src.utils import timer
 
 class OptimizeLineup:
-    def __init__(self, game_mode, availables, n_lineups, force_ins, add_results, variability_percentage):
+    def __init__(self, game_mode, availables, n_lineups, force_ins, add_results, 
+                variability_percentage, salary_cap):
         self.game_mode = game_mode
         self.availables = availables
         self.n_lineups = n_lineups
         self.force_ins = force_ins
         self.add_results = add_results
         self.variability_percentage = variability_percentage
+        self.salary_cap = salary_cap
 
+    @timer
     def run_optimizer(self): 
         salaries = {}
         points = {}
@@ -35,7 +39,7 @@ class OptimizeLineup:
 
         pos_num_available = set_position_constraints(self.game_mode)
 
-        salary_cap = 50000
+        salary_cap = self.salary_cap
 
         all_lineups = pd.DataFrame()
 
